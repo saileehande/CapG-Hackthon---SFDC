@@ -1,0 +1,99 @@
+<aura:component controller="AccountsController" implements="force:appHostable,force:hasRecordId,lightning:actionOverride">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="accounts" type="Account[]"/>
+    <aura:attribute name="editAccId" type="id"/>
+    <aura:attribute name="viewAccId" type="id"/>
+    <aura:attribute name="isEdit" type="boolean"/>
+	<aura:attribute name="isView" type="boolean"/>
+    
+    <!-- pop start for edit-->
+    <aura:attribute name="isOpen" type="boolean" default="false"></aura:attribute>
+    <aura:if isTrue="{!v.isOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-scrollable">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <!--<lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.updateSlctd }"
+                                              alternativeText="Update"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>-->
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                    <div class="slds-modal__content slds-p-around_medium" id="editDiv">
+                        
+                            <force:recordEdit aura:id="edit" recordId="{!v.editAccId}"/>
+                        <center><ui:button label="Save" press="{!c.save}"/></center>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <!--<lightning:button variant="neutral" 
+                                          label="Update"
+                                          title="Update"
+                                          onclick="{!c.updateSlctd}"/>
+                        <lightning:button variant="neutral" 
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                        <lightning:button variant="brand" 
+                                          label="Like and Close"
+                                          title="Like and Close"
+                                          onclick="{! c.likenClose }"/>-->
+                    </footer>
+                </header>
+            </div>
+        </section>
+        
+    </aura:if>
+    <!-- pop end -->
+    
+    
+    
+    
+    <br/>
+    <div class="slds-align_absolute-center">
+        <button class="slds-button slds-button_brand slds-m-right--x-small" type="button" onclick="{!c.createRecord}">New</button>
+    </div><br/>
+    
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+        <thead>
+            <tr class="slds-line-height_reset"><!--class="slds-text-heading_label slds-text-heading_large">-->
+                <th scope="col"><div class="slds-truncate" title="Account Name"><b>Account Name</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Number"><b>Account Number</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Owner"><b>Account Owner</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Source"><b>Account Source</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Annual Revenue"><b>Annual Revenue</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Type"><b>Type</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Industry"><b>Industry</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Created By"><b>Created By</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Edit"><b>Edit</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Delete"><b>Delete</b></div></th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.accounts}" var="account">
+                <tr class="slds-hint-parent">
+                    <td><div class="slds-truncate" title="{!account.Name}">{!account.Name}</div></td>
+                    <td><div class="slds-truncate" title="{!account.AccountNumber}">{!account.AccountNumber}</div></td>
+                    <td><div class="slds-truncate" title="{!account.Owner.Name}">{!account.Owner.Name}</div></td>
+                    <td><div class="slds-truncate" title="{!account.AccountSource}">{!account.AccountSource}</div></td>
+                    <td><div class="slds-truncate" title="{!account.AnnualRevenue}">{!account.AnnualRevenue}</div></td>
+                    <td><div class="slds-truncate" title="{!account.Type}">{!account.Type}</div></td>
+                    <td><div class="slds-truncate" title="{!account.Industry}">{!account.Industry}</div></td>
+                    <td><div class="slds-truncate" title="{!account.CreatedBy.Name}">{!account.CreatedBy.Name}</div></td>
+                    <td><div class="slds-truncate" title="Edit Account">
+                        	<button class="slds-button slds-button_brand" type="button" onclick="{!c.isOpen}" id="{!account.Id}">Edit</button>
+                        </div>
+                    </td>
+                    <td><div class="slds-truncate" title="Delete Account">
+                        	<button class="slds-button slds-button_brand" type="button" onclick="{!c.delete}" id="{!account.Id}">Delete</button>
+                        </div>
+                    </td>   
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+    
+    
+    <!--<aura:renderIf isTrue="{!v.isEdit}">
+        <center><ui:button label="Save" press="{!c.save}"/></center>
+	<force:recordEdit aura:id="edit" recordId="{!v.editAccId}"/>
+    </aura:renderIf>-->
+</aura:component>

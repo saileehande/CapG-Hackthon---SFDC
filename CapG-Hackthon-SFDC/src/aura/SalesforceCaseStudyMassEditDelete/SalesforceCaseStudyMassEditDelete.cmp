@@ -1,0 +1,88 @@
+<aura:component controller="AccountsController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<aura:attribute name="account" type="List"></aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.accountList}"></aura:handler>
+    
+    <br/><br/>
+    
+    <!--POP start-->
+    <aura:attribute name="myAttribute" type="String"/>
+    <aura:attribute name="accnt" type="Account" />
+    <aura:attribute name="isOpen" type="boolean" default="false"></aura:attribute>
+    <!--<button class="slds-button slds-button_brand" type="button" onclick="{!c.updateSlctd}">Update Account Source</button>-->
+    <aura:if isTrue="{!v.isOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <!--<lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.updateSlctd }"
+                                              alternativeText="Update"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>-->
+                    <!--<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Account Source</h2>-->
+                    
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p><b> 
+                            <lightning:recordEditForm aura:id="recordEditForm" objectApiName="Account">
+                                <lightning:inputField fieldName="AccountSource" aura:id="accSource" label="Account Source"/>
+                                <button class="slds-button slds-button_brand" type="button" onclick="{!c.updateSlctd1}">Save</button>
+                                <button class="slds-button slds-button_brand" type="button" onclick="{!c.handleCancel}">Cancel</button>
+                            </lightning:recordEditForm>
+                            </b></p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <!--<lightning:button variant="neutral" 
+                                          label="Update"
+                                          title="Update"
+                                          onclick="{!c.updateSlctd}"/>
+                        <lightning:button variant="neutral" 
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                        <lightning:button variant="brand" 
+                                          label="Like and Close"
+                                          title="Like and Close"
+                                          onclick="{! c.likenClose }"/>-->
+                    </footer>
+                </header>
+            </div>
+        </section>
+    </aura:if>
+    <!--POP end-->        
+    
+    
+    <div class="slds-align_absolute-center">
+    <button class="slds-button slds-button_brand" type="button" onclick="{!c.deleteSlctd}">Delete</button>
+    <button class="slds-button slds-button_brand" type="button" onclick="{!c.updateSlctd}">Update Account Source</button>
+    <!--<button class="slds-button slds-button_brand" type="button" onclick="{!c.updateSlctd}">Update Account Source</button>-->
+    </div><br/>
+    <table width="12.5%" class="slds-table slds-table--bordered slds-table--striped slds-table--cell-buffer slds-table--fixed-layout">
+        <thead>
+            <tr class="slds-text-heading--label">
+                <th scope="row" style="width: 50px;" class="slds-text-align--right slds-resizable resizable--vertical"><ui:inputCheckbox aura:id="cbox" class="cBox" change="{!c.selectAll}"/></th>
+                <th scope="row"><div class="slds-resizable resizable--vertical" title="Account Name">Account Name</div></th>
+                <th scope="row"><div class="slds-truncate" titile="Account Number">Account Number</div></th>
+                <th scope="row"><div class="slds-truncate" title="Account Owner">Account Owner</div></th>
+                <th scope="row"><div class="slds-truncate" title="Account Source">Account Source</div></th>
+                <th scope="row"><div class="slds-truncate" title="Annual Revenue">Annual Revenue</div></th>
+                <th scope="row"><div class="slds-truncate" titile="Type">Type</div></th>
+                <th scope="row"><div class="slds-truncate" title="Industry">Industry</div></th>
+                <th scope="row"><div class="slds-truncate" title="Created By">Created By</div></th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.account}" var="a">
+                <tr>
+                    <td><ui:inputCheckbox aura:id="cboxRow" text="{!a.Id}" class="cBox" change="{!c.changeSelectAll}"/></td>
+                    <th><div class="slds-truncate">{!a.Name}</div></th>
+                    <td><div class="slds-truncate">{!a.AccountNumber}</div></td>
+                    <td><div class="slds-truncate">{!a.Owner.Name}</div></td>
+                    <td><div class="slds-truncate">{!a.AccountSource}</div></td>
+                    <th><div class="slds-truncate">{!a.AnnualRevenue}</div></th>
+                    <td><div class="slds-truncate">{!a.Type}</div></td>
+                    <td><div class="slds-truncate">{!a.Industry}</div></td>
+                    <td><div class="slds-truncate">{!a.CreatedBy.Name}</div></td>
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+</aura:component>

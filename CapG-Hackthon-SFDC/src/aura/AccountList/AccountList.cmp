@@ -1,0 +1,100 @@
+<aura:component controller="AccountsController" implements="force:appHostable,force:hasRecordId,lightning:actionOverride">
+     
+	<aura:attribute name="accounts" type="Account[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="viewAccId" type="id"/>
+	<aura:attribute name="isView" type="boolean"/>
+    <div class="navbar-header">
+        <b><h1>Account List View</h1></b>
+    </div>
+    <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout">
+        <thead>
+            <tr><!--class="slds-text-heading_label slds-text-heading_large">-->
+                <th scope="col"><div class="slds-truncate" title="Select"><b>Select</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Name"><b>Account Name</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Number"><b>Account Number</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Owner"><b>Account Owner</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Account Source"><b>Account Source</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Annual Revenue"><b>Annual Revenue</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Type"><b>Type</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Industry"><b>Industry</b></div></th>
+                <th scope="col"><div class="slds-truncate" title="Created By"><b>Created By</b></div></th>
+            </tr>
+        </thead>
+        <tbody>
+            <aura:iteration items="{!v.accounts}" var="account">
+                <tr>
+                    <th scope="row"><div class="slds-truncate" title="Select"><ui:inputCheckbox aura:id="checkContact" value="" text="{!account.Id}" change="{!c.handleSelectedAccount}"/></div></th>
+                    <td><div class="slds-truncate" title="{!account.Name}">{!account.Name}</div></td>
+                    <td><div class="slds-truncate" title="{!account.AccountNumber}">{!account.AccountNumber}</div></td>
+                    <td><div class="slds-truncate" title="{!account.Owner.Name}">{!account.Owner.Name}</div></td>
+                    <td><div class="slds-truncate" title="{!account.AccountSource}">{!account.AccountSource}</div></td>
+                    <td><div class="slds-truncate" title="{!account.AnnualRevenue}">{!account.AnnualRevenue}</div></td>
+                    <td><div class="slds-truncate" title="{!account.Type}">{!account.Type}</div></td>
+                    <td><div class="slds-truncate" title="{!account.Industry}">{!account.Industry}</div></td>
+                    <td><div class="slds-truncate" title="{!account.CreatedBy.Name}">{!account.CreatedBy.Name}</div></td>
+                </tr>
+            </aura:iteration>
+        </tbody>
+    </table>
+    <!--<div>
+        <br/>
+        <lightning:button label="View" class="slds-button_brand" onclick="{!c.handleSelectedAccount }"  />
+    </div>-->
+    <br/>
+    <aura:attribute name="acc" type="Account" default="{'sobjectType': 'Account'}"/>
+    <div class="navbar-header">
+        <b><h1>Account Details</h1></b>
+    </div>
+    <br/>
+    <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout">
+        <thead>
+        </thead>
+        <tbody>
+            <tr>
+                <td><div class="slds-truncate" title="Account Name"><b>Account Name</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.AccountNumber}">{!v.acc.Name}</div></td>
+                <td><div class="slds-truncate" title="Account Number"><b>Account Number</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.AccountNumber}">{!v.acc.AccountNumber}</div></td>
+            </tr>
+            <tr>
+                <td><div class="slds-truncate" title="Account Owner"><b>Account Owner</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.Owner.Name}">{!v.acc.Owner.Name}</div></td>
+                <td><div class="slds-truncate" title="Account Source"><b>Account Source</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.AccountSource}">{!v.acc.AccountSource}</div></td>
+            </tr>
+            <tr>
+                <td><div class="slds-truncate" title="Parent Account"><b>Parent Account</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.Parent.Name}">{!v.acc.Parent.Name}</div></td>
+                <td><div class="slds-truncate" title="Annual Revenue"><b>Annual Revenue</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.AccountRevenue}">{!v.acc.AccountRevenue}</div></td>
+            </tr>
+            <tr>
+                <td><div class="slds-truncate" title="Type"><b>Type</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.Type}">{!v.acc.Type}</div></td>
+                <td><div class="slds-truncate" title="Created By"><b>Created By</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.CreatedBy.Name}">{!v.acc.CreatedBy.Name}</div></td>
+            </tr>
+            <tr>
+                <td><div class="slds-truncate" title="Fax"><b>Fax</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.Fax}">{!v.acc.Fax}</div></td>
+                
+                <td><div class="slds-truncate" title="Industry"><b>Industry</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.Industry}">{!v.acc.Industry}</div></td>
+            </tr>
+            <tr>
+                <td><div class="slds-truncate" title="Description"><b>Description</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.Description}">{!v.acc.Description}</div></td>
+                <td><div class="slds-truncate" title="Phone"><b>Phone</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.Phone}">{!v.acc.Phone}</div></td>
+            </tr>
+            <tr>
+                <td><div class="slds-truncate" title="Last Modified By"><b>Last Modified By</b></div></td>
+                <td><div class="slds-truncate" title="{!v.acc.LastModifiedBy.Name}">{!v.acc.LastModifiedBy.Name}</div></td>
+            </tr>
+        </tbody>
+    </table>
+    <aura:renderIf isTrue="{!v.isView}">
+	<force:recordView aura:id="view" recordId="{!v.viewAccId}"/>
+    </aura:renderIf>
+</aura:component>
