@@ -40,16 +40,11 @@
     },
  	
  	createRecord : function (component, event, helper) {
-       var createRecordEvent = $A.get("e.force:createRecord");
-        createRecordEvent.setParams({
-            "entityApiName": "Account"
-        });
-        createRecordEvent.fire();
+    	component.set("v.isCreate",true);
         
     },
         
-    create : function (component, event, helper) {
-        console.log('Create record');
-        
+    createAccount : function (component, event, helper) {
+         helper.createAccount(component, event);
     }
 })

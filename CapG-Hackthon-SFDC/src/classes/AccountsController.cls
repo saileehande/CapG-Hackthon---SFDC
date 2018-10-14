@@ -72,11 +72,11 @@ public class AccountsController {
                 Phone,Fax From Account limit 15];
     }
     
-     @Auraenabled
-    public static void createRecord(Account accnt)
-    {
-        System.debug('accnt'+accnt);
-        insert accnt;
-    }
+    @AuraEnabled
+    public static Account saveAccount (Account acc) {
+
+        insert acc;
+        return acc;
+        }
     
 }
